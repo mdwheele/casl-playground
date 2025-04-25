@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "basic": "jest basics --watchAll",
-    "user-based-authz": "jest user-based-authz --watchAll",
-    "rbac": "jest rbac --watchAll"
+    "test": "jest --watchAll"
   },
   "keywords": [],
   "author": "",
