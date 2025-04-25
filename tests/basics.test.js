@@ -1,4 +1,4 @@
-import { defineAbility, AbilityBuilder, createMongoAbility } from "@casl/ability"
+import { defineAbility, AbilityBuilder, createMongoAbility, subject } from "@casl/ability"
 
 class User {
   constructor(data) {
@@ -71,6 +71,29 @@ describe('Basic CASL Functionality', () => {
       expect(frontendAbility.can('read', frank)).toBe(true)
       expect(frontendAbility.can('delete', sue)).toBe(false)
       expect(frontendAbility.can('delete', frank)).toBe(true)
+    })
+
+    test('Dealing with objects, not class instances', () => {
+      /**
+       * When the front-end queries the backend for information about a user, 
+       * we don't want to have to duplicate our models JUST to get an instance of a 
+       * User class. We'll be dealing with JSON objects in the front-end.
+       * 
+       * However, CASL won't be able to infer the subject from a plain object...
+       */
+
+      const frankAsJSON = {
+        username: 'frank@nutanix.com',
+        retired: true
+      }
+
+      expect(frontendAbility.can('delete', frankAsJSON)).toBe(false)
+
+      /**
+       * We need to use the subject helper to annotate plain objects with a Subject type
+       */
+
+      expect(frontendAbility.can('delete', subject('User', frankAsJSON))).toBe(true)
     })
   })
 })
