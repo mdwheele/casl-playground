@@ -16,11 +16,15 @@ describe('Basic CASL Functionality', () => {
   let ability
 
   test('An ability depends on an action, subject, fields, and condition', () => {
+
     ability = defineAbility((can, cannot) => {
+      // can(action, subject?, conditions?)
+
       can('read', 'all')
       cannot('delete', 'User')
       can('delete', 'User', { retired: true })
     })
+
   })
 
   test('Anybody can read anything', () => {
