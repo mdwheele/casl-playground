@@ -30,6 +30,15 @@ describe('Basic CASL Functionality', () => {
   test('Anybody can read anything', () => {
     expect(ability.can('read', sue)).toBe(true)
     expect(ability.can('read', frank)).toBe(true)
+
+    /**
+     * How does CASL know that `sue` and `frank` are of the `User` subject type?
+     * 
+     * CASL infers subject types from `.constructor.name`, which is the class name in this case.
+     * So when it is passed `sue`, it looks for `sue.constructor.name`, which should be "User".
+     */
+
+    expect(sue.constructor.name).toBe('User')
   })
 
   test('Cannot delete users, unconditionally', () => {
